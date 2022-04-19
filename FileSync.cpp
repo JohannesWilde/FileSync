@@ -31,8 +31,6 @@ void backup(std::filesystem::path const & source, std::filesystem::path const & 
     {
         std::filesystem::path const pathEntryDestination = projectedPath(entry.path(), source, destination);
 
-        std::filesystem::file_status const destinationFileStatus = std::filesystem::status(pathEntryDestination);
-
         if (entry.is_regular_file())
         {
             bool const success = std::filesystem::copy_file(entry.path(), pathEntryDestination, std::filesystem::copy_options::update_existing);
@@ -40,6 +38,7 @@ void backup(std::filesystem::path const & source, std::filesystem::path const & 
         }
         else if (entry.is_directory())
         {
+            std::filesystem::file_status const destinationFileStatus = std::filesystem::status(pathEntryDestination);
             bool destinationDirectoryExists = std::filesystem::exists(destinationFileStatus);
             if (destinationDirectoryExists)
             {
