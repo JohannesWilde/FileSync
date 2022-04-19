@@ -27,6 +27,7 @@ namespace FileSync
 
 void backup(std::filesystem::path const & source, std::filesystem::path const & destination)
 {
+    // First backup all files and subdirectories from source anew.
     for (std::filesystem::directory_entry const & entry : std::filesystem::directory_iterator(source))
     {
         std::filesystem::path const pathEntryDestination = projectedPath(entry.path(), source, destination);
@@ -61,6 +62,23 @@ void backup(std::filesystem::path const & source, std::filesystem::path const & 
             }
 
             backup(entry.path(), pathEntryDestination);
+        }
+        else
+        {
+            std::cout << "unknown file type: " << entry.path() << std::endl;
+        }
+    }
+
+    // Afterwards clean up and remove all retained files/directories.
+    for (std::filesystem::directory_entry const & entry : std::filesystem::directory_iterator(destination))
+    {
+        if (entry.is_regular_file() || entry.is_directory())
+        {
+            std::filesystem::path const pathEntrySource = projectedPath(entry.path(), destination, source);
+            if (!std::filesystem::exists(pathEntrySource))
+            {
+                std::filesystem::remove(entry.path());
+            }
         }
         else
         {
