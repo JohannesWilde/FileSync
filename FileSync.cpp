@@ -1,6 +1,8 @@
 #include "FileSync.hpp"
 
+#include <exception>
 #include <iostream>
+#include <sstream>
 
 namespace // anonymous
 {
@@ -25,9 +27,11 @@ namespace FileSync
 
 void backup(std::filesystem::path const & source, std::filesystem::path const & destination)
 {
-    for (std::filesystem::directory_entry const & entry : std::filesystem::recursive_directory_iterator(source))
+    for (std::filesystem::directory_entry const & entry : std::filesystem::directory_iterator(source))
     {
         std::filesystem::path const pathEntryDestination = projectedPath(entry.path(), source, destination);
+
+        std::filesystem::file_status const destinationFileStatus = std::filesystem::status(pathEntryDestination);
 
         if (entry.is_regular_file())
         {
@@ -36,8 +40,32 @@ void backup(std::filesystem::path const & source, std::filesystem::path const & 
         }
         else if (entry.is_directory())
         {
-            bool const success = std::filesystem::create_directory(pathEntryDestination);
-            std::cout << "directory: " << entry.path() << " - " << (success ? "ok" : "error") << std::endl;
+            bool destinationDirectoryExists = std::filesystem::exists(destinationFileStatus);
+            if (destinationDirectoryExists)
+            {
+                if (!std::filesystem::is_directory(destinationFileStatus))
+                {
+                    std::filesystem::remove(pathEntryDestination);
+                    destinationDirectoryExists = false;
+                }
+            }
+            // Now recheck whether I just deleted it.
+            if (!destinationDirectoryExists)
+            {
+                bool const success = std::filesystem::create_directory(pathEntryDestination);
+                if (!success)
+                {
+                    std::stringstream message;
+                    message << "Failed to create directory: " << pathEntryDestination << std::endl;
+                    throw std::runtime_error(message.str());
+                }
+            }
+
+            backup(entry.path(), pathEntryDestination);
+        }
+        else
+        {
+            std::cout << "unknown file type: " << entry.path() << std::endl;
         }
     }
 }
