@@ -35,8 +35,8 @@ void backup(std::filesystem::path const & source, std::filesystem::path const & 
 
         if (entry.is_regular_file())
         {
-            bool const success = std::filesystem::copy_file(entry.path(), pathEntryDestination);
-            std::cout << "file: " << entry.path() << " - " << (success ? "ok" : "error") << std::endl;
+            bool const success = std::filesystem::copy_file(entry.path(), pathEntryDestination, std::filesystem::copy_options::update_existing);
+            std::cout << "file: " << entry.path() << " - " << (success ? "copied" : "not copied") << std::endl;
         }
         else if (entry.is_directory())
         {
