@@ -77,7 +77,7 @@ void backup(std::filesystem::path const & source, std::filesystem::path const & 
             std::filesystem::path const pathEntrySource = projectedPath(entry.path(), destination, source);
             if (!std::filesystem::exists(pathEntrySource))
             {
-                std::filesystem::remove(entry.path());
+                std::filesystem::remove_all(entry.path());
             }
         }
         else
