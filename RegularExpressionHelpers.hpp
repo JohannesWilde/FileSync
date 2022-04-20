@@ -21,6 +21,14 @@ public:
 
 }; // class RegexFileExtension
 
+class RegexDirectory : public std::regex
+{
+public:
+    RegexDirectory(std::string const & directory);
+    RegexDirectory(std::initializer_list<std::string> const directories);
+
+}; // class RegexFileExtension
+
 } // namespace FileSync
 
 #endif // REGULAR_EXPRESSION_HELPERS_HPP

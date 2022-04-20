@@ -14,7 +14,7 @@ int main()
         std::string const filePathIno("/home/user/Desktop/source/subdirectory/arduino_sleep_tutorial_sketch1v1_0_0(1).ino");
 
         {
-            FileSync::RegexFileExtension regexExtension(".png");
+            FileSync::RegexFileExtension regexExtension("png");
 
             if (true != std::regex_search(filePathPng, regexExtension))
             {
@@ -32,7 +32,25 @@ int main()
         }
 
         {
-            std::regex const regexFolder(".*/subdirectory/.*");
+            FileSync::RegexDirectory const regexFolder("subdirectory");
+
+            if (false != std::regex_search(filePathPng, regexFolder))
+            {
+                returnCode = 1;
+            }
+            if (false != std::regex_search(filePathPdf, regexFolder))
+            {
+                returnCode = 1;
+            }
+
+            if (true != std::regex_search(filePathIno, regexFolder))
+            {
+                returnCode = 1;
+            }
+        }
+
+        {
+            FileSync::RegexDirectory const regexFolder({"source", "subdirectory"});
 
             if (false != std::regex_search(filePathPng, regexFolder))
             {

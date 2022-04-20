@@ -36,7 +36,7 @@ namespace FileSync
 {
 
 RegexFileName::RegexFileName(std::string const & filename)
-    : std::regex("^.*"s + filename + "$"s)
+    : std::regex("^(.*\\"s + fileSeperator + ")?"s + filename + "$"s)
 {
     if (!checkFilenameValid(filename))
     {
@@ -55,6 +55,35 @@ RegexFileExtension::RegexFileExtension(std::string const & extension)
         message << "RegexFileExtension: The leading dot shall not be specified: \"" << extension << "\".";
         throw std::runtime_error(message.str());
     }
+}
+
+RegexDirectory::RegexDirectory(std::string const & directory)
+    : RegexDirectory({directory})
+{
+    // intentionally empty
+}
+
+RegexDirectory::RegexDirectory(std::initializer_list<std::string> const directories)
+    : std::regex([directories]()
+    {
+        std::stringstream expression;
+        expression << "^(.*\\" << fileSeperator << ")?("s;
+        if (0 < directories.size())
+        {
+            for (std::initializer_list<std::string>::const_iterator directoryIterator = directories.begin();
+                 std::prev(directories.end()) != directoryIterator;
+                 ++directoryIterator)
+            {
+                expression << *directoryIterator << "\\" << fileSeperator;
+            }
+            expression << *std::prev(directories.end()) << ")(\\" << fileSeperator << ".+)?";
+        }
+        expression << "$";
+        return expression.str();
+    } ()
+    )
+{
+    // intentionally empty
 }
 
 } // namespace FileSync
