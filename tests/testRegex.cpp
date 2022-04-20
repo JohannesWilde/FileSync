@@ -1,6 +1,8 @@
 #include <iostream>
 #include <regex>
 
+#include <RegularExpressionHelpers.hpp>
+
 int main()
 {
     int returnCode = 0;
@@ -48,7 +50,7 @@ int main()
         }
 
         {
-            std::regex const regexFile(".*/Atmel-7766-8-bit-AVR-ATmega16U4-32U4_Datasheet.pdf$");
+            FileSync::RegexFilename const regexFile("Atmel-7766-8-bit-AVR-ATmega16U4-32U4_Datasheet.pdf");
 
             if (false != std::regex_search(filePathPng, regexFile))
             {
@@ -65,11 +67,17 @@ int main()
             }
         }
 
-    }
-    catch (...)
-    {
-        returnCode = 1;
-    }
+        }
+        catch (std::exception const & e)
+        {
+            returnCode = 1;
+            std::cout << e.what() << std::endl;
+        }
+         catch (...)
+         {
+             returnCode = 1;
+             std::cout << "unknown exception" << std::endl;
+         }
 
     return returnCode;
 }
