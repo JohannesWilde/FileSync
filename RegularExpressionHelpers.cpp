@@ -35,13 +35,24 @@ using namespace std::literals; // required for operator""s
 namespace FileSync
 {
 
-RegexFilename::RegexFilename(std::string const & filename)
+RegexFileName::RegexFileName(std::string const & filename)
     : std::regex("^.*"s + filename + "$"s)
 {
     if (!checkFilenameValid(filename))
     {
         std::stringstream message;
-        message << "RegexFilename: Invalid filename supplied: \"" << filename << "\".";
+        message << "RegexFileName: Invalid filename supplied: \"" << filename << "\".";
+        throw std::runtime_error(message.str());
+    }
+}
+
+RegexFileExtension::RegexFileExtension(std::string const & extension)
+    : std::regex("^.*\\."s + extension + "$"s)
+{
+    if ((extension.size() > 0) && ('.' == extension.at(0)))
+    {
+        std::stringstream message;
+        message << "RegexFileExtension: The leading dot shall not be specified: \"" << extension << "\".";
         throw std::runtime_error(message.str());
     }
 }

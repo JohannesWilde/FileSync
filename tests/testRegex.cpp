@@ -14,7 +14,7 @@ int main()
         std::string const filePathIno("/home/user/Desktop/source/subdirectory/arduino_sleep_tutorial_sketch1v1_0_0(1).ino");
 
         {
-            std::regex const regexExtension(".*\\.png$");
+            FileSync::RegexFileExtension regexExtension(".png");
 
             if (true != std::regex_search(filePathPng, regexExtension))
             {
@@ -50,7 +50,7 @@ int main()
         }
 
         {
-            FileSync::RegexFilename const regexFile("Atmel-7766-8-bit-AVR-ATmega16U4-32U4_Datasheet.pdf");
+            FileSync::RegexFileName const regexFile("Atmel-7766-8-bit-AVR-ATmega16U4-32U4_Datasheet.pdf");
 
             if (false != std::regex_search(filePathPng, regexFile))
             {

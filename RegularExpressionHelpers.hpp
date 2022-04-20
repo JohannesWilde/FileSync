@@ -7,12 +7,19 @@
 namespace FileSync
 {
 
-class RegexFilename : public std::regex
+class RegexFileName : public std::regex
 {
 public:
-    RegexFilename(std::string const & filename);
+    RegexFileName(std::string const & filename);
 
 }; // class RegexFilename
+
+class RegexFileExtension : public std::regex
+{
+public:
+    RegexFileExtension(std::string const & extension);
+
+}; // class RegexFileExtension
 
 } // namespace FileSync
 
