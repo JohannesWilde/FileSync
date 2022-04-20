@@ -3,8 +3,6 @@
 
 #include "FileSync.hpp"
 
-using namespace std;
-
 int main()
 {
     try
