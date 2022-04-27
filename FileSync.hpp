@@ -9,6 +9,17 @@
 namespace FileSync
 {
 
+/**
+ * @brief The FileSync class provides an interface for backing up files from one directory to an other.
+ *
+ * Filters are provided for finer control of what shall be backed up:
+ *  - includeFilters: Only files explicitely specified here will be backed up.
+ *  - excludeFilters: Anything matching these won't be backed up.
+ * Please note that the exludeFilters have precedence, i.e. overwrite matching include filters.
+ * These filters only work on relative paths as to be consistent in the source and backup directory,
+ * no matter where these actually are.
+ *
+ */
 class FileSync
 {
 public:
