@@ -29,9 +29,17 @@ class RegexDirectory : public std::regex
 {
 public:
     RegexDirectory(std::string const & directory);
-    RegexDirectory(std::initializer_list<std::string> const directories);
     RegexDirectory(RegexDirectory const & other) = default;
     RegexDirectory(RegexDirectory && other) = default;
+
+    /**
+     * @brief RegexDirectory Specialization to match consectuvie directories in the order specified from top to bottom.
+     * @param directories Directories to match.
+     *
+     * Specifying {'a', 'b'} will match \".../a/b/...\".
+     *
+     */
+    RegexDirectory(std::initializer_list<std::string> const directories);
 
 }; // class RegexFileExtension
 
