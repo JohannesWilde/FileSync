@@ -25,7 +25,21 @@ std::filesystem::path projectedPath(std::filesystem::path const & path,
 namespace FileSync
 {
 
-void backup(std::filesystem::path const & source, std::filesystem::path const & destination)
+FileSync::FileSync(std::filesystem::path const & source, std::filesystem::path const & destination)
+    : source_(source)
+    , destination_(destination)
+{
+    // intentionally empty
+}
+
+
+void FileSync::backup()
+{
+    backup_(source_, destination_);
+}
+
+
+void FileSync::backup_(std::filesystem::path const & source, std::filesystem::path const & destination)
 {
     // First backup all files and subdirectories from source anew.
     for (std::filesystem::directory_entry const & entry : std::filesystem::directory_iterator(source))
@@ -61,7 +75,7 @@ void backup(std::filesystem::path const & source, std::filesystem::path const & 
                 }
             }
 
-            backup(entry.path(), pathEntryDestination);
+            backup_(entry.path(), pathEntryDestination);
         }
         else
         {

@@ -10,7 +10,7 @@ int main()
         std::filesystem::path const pathSource("/home/user/Desktop/source");
         std::filesystem::path const pathDestination("/home/user/Desktop/backup");
 
-        FileSync::backup(pathSource, pathDestination);
+        FileSync::FileSync(pathSource, pathDestination).backup();
     }
     catch (std::exception const & e)
     {
