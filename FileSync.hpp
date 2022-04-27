@@ -41,10 +41,14 @@ public:
 
     void backup();
 
+    void addIncludeFilter(FilterType const & filter);
+    void removeIncludeFilter(FilterType const & filter);
     void addIncludeFilters(std::vector<FilterType> const & filters);
     void removeIncludeFilters(std::vector<FilterType> const & filters);
     std::vector<FilterType> const & getIncludeFilters() const;
 
+    void addExcludeFilter(FilterType const & filter);
+    void removeExcludeFilter(FilterType const & filter);
     void addExcludeFilters(std::vector<FilterType> const & filters);
     void removeExcludeFilters(std::vector<FilterType> const & filters);
     std::vector<FilterType> const & getExcludeFilters() const;

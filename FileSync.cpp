@@ -81,6 +81,16 @@ FileSync::FileSync(std::filesystem::path const & source,
 }
 
 
+void FileSync::addIncludeFilter(FilterType const & filter)
+{
+    addIncludeFilters({filter});
+}
+
+void FileSync::removeIncludeFilter(FilterType const & filter)
+{
+    removeIncludeFilter({filter});
+}
+
 void FileSync::addIncludeFilters(std::vector<FilterType> const & filters)
 {
     includeFilters_.insert(includeFilters_.cend(), filters.cbegin(), filters.cend());
@@ -96,6 +106,16 @@ std::vector<FileSync::FilterType> const & FileSync::getIncludeFilters() const
     return includeFilters_;
 }
 
+
+void FileSync::addExcludeFilter(FilterType const & filter)
+{
+    addExcludeFilters({filter});
+}
+
+void FileSync::removeExcludeFilter(FilterType const & filter)
+{
+    removeExcludeFilter({filter});
+}
 
 void FileSync::addExcludeFilters(std::vector<FileSync::FilterType> const & filters)
 {
