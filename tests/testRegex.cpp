@@ -85,17 +85,17 @@ int main()
             }
         }
 
-        }
-        catch (std::exception const & e)
-        {
-            returnCode = 1;
-            std::cout << e.what() << std::endl;
-        }
-         catch (...)
-         {
-             returnCode = 1;
-             std::cout << "unknown exception" << std::endl;
-         }
+    }
+    catch (std::exception const & e)
+    {
+        returnCode = 1;
+        std::cout << e.what() << std::endl;
+    }
+    catch (...)
+    {
+        returnCode = 1;
+        std::cout << "unknown exception" << std::endl;
+    }
 
     return returnCode;
 }
